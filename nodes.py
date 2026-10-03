@@ -10,7 +10,7 @@ from comfy_api.latest import Types
 def _release_vram(unload_models: bool) -> None:
     """Release ComfyUI models and cached tensors before CuMesh allocates VRAM."""
     if not torch.cuda.is_available():
-        raise RuntimeError("CuMesh requires an NVIDIA CUDA GPU.")
+        raise RuntimeError("CuMesh requires a CUDA or ROCm GPU.")
 
     if unload_models:
         try:

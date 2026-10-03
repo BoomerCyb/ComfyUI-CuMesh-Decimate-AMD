@@ -1,1 +1,1 @@
-# PyTorch is supplied by ComfyUI. CuMesh is installed/verified by install.py.
+# PyTorch is supplied by ComfyUI. Build and install the bundled CuMesh-HIP backend using AMD_PORT.md.
