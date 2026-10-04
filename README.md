@@ -75,7 +75,7 @@ If thin triangles remain, increase `skinny_triangle_weight` gradually (for examp
 ## License
 
 This wrapper is MIT licensed. CuMesh is a separate MIT-licensed dependency; see
-`THIRD_PARTY_NOTICES.md` and `licenses/CUMESH-MIT.txt`.
+`THIRD_PARTY_NOTICES.md` and `LICENSE` (section: CUMESH-MIT.txt).
 
 ## AMD Edition Changes - 2026-10-03
 

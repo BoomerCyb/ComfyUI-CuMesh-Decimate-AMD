@@ -8,7 +8,7 @@ This node uses the bundled CuMesh HIP backend after it is built and installed in
 - Copyright: Copyright (c) 2025 Jianfeng XIANG
 - License: MIT
 
-The full upstream license notice is reproduced in `licenses/CUMESH-MIT.txt`.
+The full upstream license notice is reproduced in `LICENSE` (section: CUMESH-MIT.txt).
 Modified CuMesh source is bundled in `CuMesh-HIP/`. Build and install it using `README.md`; the legacy wheel-search installer is disabled.
 
 ## Bundled HIP backend
