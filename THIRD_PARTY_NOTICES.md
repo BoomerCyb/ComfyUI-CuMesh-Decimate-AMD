@@ -9,7 +9,7 @@ This node uses the bundled CuMesh HIP backend after it is built and installed in
 - License: MIT
 
 The full upstream license notice is reproduced in `licenses/CUMESH-MIT.txt`.
-Modified CuMesh source is bundled in `CuMesh-HIP/`. Build and install it using `AMD_PORT.md`; the legacy wheel-search installer is disabled.
+Modified CuMesh source is bundled in `CuMesh-HIP/`. Build and install it using `README.md`; the legacy wheel-search installer is disabled.
 
 ## Bundled HIP backend
 
