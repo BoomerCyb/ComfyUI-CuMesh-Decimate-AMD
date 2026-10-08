@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import gc
+import importlib.util
 import inspect
+import json
+from pathlib import Path
 
 import torch
 from comfy_api.latest import Types
@@ -29,13 +32,40 @@ def _release_vram(unload_models: bool) -> None:
     torch.cuda.empty_cache()
 
 
+def _cumesh_build_problem():
+    """Why the installed cumesh cannot be loaded safely, or None.
+
+    Read before importing: a native module built for another PyTorch can crash
+    the process instead of raising an ImportError.
+    """
+    spec = importlib.util.find_spec("cumesh")
+    if spec is None or not spec.origin:
+        return None
+    try:
+        built = json.loads((Path(spec.origin).parent / "_build_info.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None  # built before build records existed
+    rebuild = " Run install_requirements.bat in this node's folder, then restart ComfyUI."
+    if built.get("torch") and built["torch"] != torch.__version__:
+        return f"cumesh was built for PyTorch {built['torch']}, but ComfyUI now runs {torch.__version__}." + rebuild
+    architectures = [arch for arch in built.get("architectures", "").split(";") if arch]
+    if architectures and torch.cuda.is_available():
+        current = torch.cuda.get_device_properties(torch.cuda.current_device()).gcnArchName.split(":")[0]
+        if current not in architectures:
+            return f"cumesh was built for {', '.join(architectures)}, but this GPU is {current}." + rebuild
+    return None
+
+
 def _import_cumesh():
+    problem = _cumesh_build_problem()
+    if problem:
+        raise RuntimeError(problem)
     try:
         import cumesh
     except (ImportError, ModuleNotFoundError) as exc:
         raise RuntimeError(
             "CuMesh is not installed for this ComfyUI Python/Torch build. Run "
-            "Install-CuMesh-Node.cmd, then restart ComfyUI."
+            "install_requirements.bat in this node's folder, then restart ComfyUI."
         ) from exc
 
     if not hasattr(cumesh, "CuMesh"):
